@@ -30,6 +30,14 @@ pipeline {
 
         }
 	    
+        stage('SonarQube analysis') {
+		 steps {
+                withSonarQubeEnv('Sonar') { 
+                bat "mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar"
+                }
+            }
+        }
+	    
         stage("Quality gate") {
       steps {
           waitForQualityGate abortPipeline: true
