@@ -8,6 +8,11 @@
 	<version>1.0.0-SNAPSHOT</version>
 	<name>Devops Sample Application</name>
 	<url>http://maven.apache.org</url>
+	<plugin>
+        <groupId>org.sonarsource.scanner.maven</groupId>
+        <artifactId>sonar-maven-plugin</artifactId>
+        <version>3.2</version>
+        </plugin>
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -181,11 +186,6 @@
 			<artifactId>activation</artifactId>
 			<version>1.1</version>
 		</dependency>
-		<dependency>
-                       <groupId>org.sonarsource.scanner.maven</groupId>
-                       <artifactId>sonar-maven-plugin</artifactId>
-                       <version>3.2</version>
-                </dependency>
 	</dependencies>
 	<build>
 		<testResources>
