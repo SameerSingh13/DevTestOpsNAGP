@@ -7,17 +7,15 @@ pipeline {
     }
 
     stages {
-        stage('code checkout') {
+        stage('Cloning project from git') {
             steps {
-                bat "echo hello"
+		   // Get some code from a GitHub repository
+                git 'https://github.com/SameerSingh13/DevTestOpsNAGP.git'
             }
-
         }
 
-        stage('code build') {
+        stage('Code build') {
             steps {
-                // Get some code from a GitHub repository
-                git 'https://github.com/SameerSingh13/DevTestOpsNAGP.git'
                 // Run Maven on a Unix agent.
                 bat "mvn clean"
             }
@@ -31,6 +29,24 @@ pipeline {
             }
 
         }
-    } 
-  
+
+        stage('SonarQube analysis') {
+		 steps {  
+			 script {
+                    scannerHome = tool 'SonarScanner';
+                }
+                withSonarQubeEnv('Sonar') { 
+                bat "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=com.nagarro.devops-tools.devops:demosampleapplication -Dsonar.sources=http://localhost:9000/sonar"
+                bat 'sonar:sonar'
+                }
+            }
+        }
+
+        stage("Quality gate") {
+      steps {
+          waitForQualityGate abortPipeline: true
+            }
+        }
+    }
+
 }
